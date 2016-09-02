@@ -1,0 +1,28 @@
+This directory contains the implementation of gr-quadratiq block, for
+use of GNU radio with Epiq Solutions' Quadratiq hardware 
+(http://epiqsolutions.com/quadratiq)
+
+What's New:
+  * Initial skelton implementation
+
+Know Limitations:
+  * 
+
+To Build and Install (from the gr-quadratiq directory)  
+  1) Create a build directory
+      > mkdir build
+  2) Change to the build directory
+      > cd build
+  3) Run cmake 
+     (NOTE: if you wish to install to a specific directory, 
+          run with -DCMAKE_INSTALL_PREFIX)
+      > cmake ../
+           OR
+      > cmake -DCMAKE_INSTALL_PREFIX=/my_install_directory ../
+  4) Build the code
+      > make
+  5) Install it
+      > sudo make install
+  6) Update dynamic linker for new library (Linux only)
+      > ldconfig
+  7) Refer to the example GRC source block located at examples/grc/quadratiq_source.grc
