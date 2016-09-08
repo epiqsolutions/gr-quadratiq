@@ -26,7 +26,7 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND quadratiq_sources
-    qdiq_source_s_impl.cc
+    qtiq_source_s_impl.cc
 )
 
 set(quadratiq_sources "${quadratiq_sources}" PARENT_SCOPE)

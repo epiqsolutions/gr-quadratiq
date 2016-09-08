@@ -18,5 +18,5 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    quadratiq_qdiq_source_s.xml DESTINATION share/gnuradio/grc/blocks
+    quadratiq_qtiq_source_s.xml DESTINATION share/gnuradio/grc/blocks
 )

@@ -22,5 +22,5 @@
 ########################################################################
 install(FILES
     api.h
-    qdiq_source_s.h DESTINATION include/quadratiq
+    qtiq_source_s.h DESTINATION include/quadratiq
 )

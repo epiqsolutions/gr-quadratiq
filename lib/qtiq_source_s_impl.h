@@ -18,22 +18,22 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_QUADRATIQ_QDIQ_SOURCE_S_IMPL_H
-#define INCLUDED_QUADRATIQ_QDIQ_SOURCE_S_IMPL_H
+#ifndef INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_IMPL_H
+#define INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_IMPL_H
 
-#include <quadratiq/qdiq_source_s.h>
+#include <quadratiq/qtiq_source_s.h>
 
 namespace gr {
   namespace quadratiq {
 
-    class qdiq_source_s_impl : public qdiq_source_s
+    class qtiq_source_s_impl : public qtiq_source_s
     {
      private:
       // Nothing to declare in this block.
 
      public:
-      qdiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port);
-      ~qdiq_source_s_impl();
+      qtiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port);
+      ~qtiq_source_s_impl();
 
       // Where all the action really happens
       int work(int noutput_items,
@@ -44,5 +44,5 @@ namespace gr {
   } // namespace quadratiq
 } // namespace gr
 
-#endif /* INCLUDED_QUADRATIQ_QDIQ_SOURCE_S_IMPL_H */
+#endif /* INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_IMPL_H */
 

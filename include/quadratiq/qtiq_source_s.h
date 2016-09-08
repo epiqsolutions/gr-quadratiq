@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_QUADRATIQ_QDIQ_SOURCE_S_H
-#define INCLUDED_QUADRATIQ_QDIQ_SOURCE_S_H
+#ifndef INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_H
+#define INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_H
 
 #include <quadratiq/api.h>
 #include <gnuradio/sync_block.h>
@@ -33,17 +33,17 @@ namespace gr {
      * \ingroup quadratiq
      *
      */
-    class QUADRATIQ_API qdiq_source_s : virtual public gr::sync_block
+    class QUADRATIQ_API qtiq_source_s : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<qdiq_source_s> sptr;
+      typedef boost::shared_ptr<qtiq_source_s> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of quadratiq::qdiq_source_s.
+       * \brief Return a shared_ptr to a new instance of quadratiq::qtiq_source_s.
        *
-       * To avoid accidental use of raw pointers, quadratiq::qdiq_source_s's
+       * To avoid accidental use of raw pointers, quadratiq::qtiq_source_s's
        * constructor is in a private implementation
-       * class. quadratiq::qdiq_source_s::make is the public interface for
+       * class. quadratiq::qtiq_source_s::make is the public interface for
        * creating new instances.
        */
       static sptr make(std::string ctrl_ip, uint32_t ctrl_port);
@@ -52,5 +52,5 @@ namespace gr {
   } // namespace quadratiq
 } // namespace gr
 
-#endif /* INCLUDED_QUADRATIQ_QDIQ_SOURCE_S_H */
+#endif /* INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_H */
 

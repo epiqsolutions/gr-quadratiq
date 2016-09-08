@@ -23,23 +23,23 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "qdiq_source_s_impl.h"
+#include "qtiq_source_s_impl.h"
 
 namespace gr {
   namespace quadratiq {
 
-    qdiq_source_s::sptr
-    qdiq_source_s::make(std::string ctrl_ip, uint32_t ctrl_port)
+    qtiq_source_s::sptr
+    qtiq_source_s::make(std::string ctrl_ip, uint32_t ctrl_port)
     {
       return gnuradio::get_initial_sptr
-        (new qdiq_source_s_impl(ctrl_ip, ctrl_port));
+        (new qtiq_source_s_impl(ctrl_ip, ctrl_port));
     }
 
     /*
      * The private constructor
      */
-    qdiq_source_s_impl::qdiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port)
-      : gr::sync_block("qdiq_source_s",
+    qtiq_source_s_impl::qtiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port)
+      : gr::sync_block("qtiq_source_s",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, 1, sizeof(short)))
     {}
@@ -47,12 +47,12 @@ namespace gr {
     /*
      * Our virtual destructor.
      */
-    qdiq_source_s_impl::~qdiq_source_s_impl()
+    qtiq_source_s_impl::~qtiq_source_s_impl()
     {
     }
 
     int
-    qdiq_source_s_impl::work(int noutput_items,
+    qtiq_source_s_impl::work(int noutput_items,
         gr_vector_const_void_star &input_items,
         gr_vector_void_star &output_items)
     {
