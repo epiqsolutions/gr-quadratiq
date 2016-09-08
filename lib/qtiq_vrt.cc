@@ -18,6 +18,7 @@
  * Boston, MA 02110-1301, USA.
  */
 #include "qtiq_vrt.h"
+#include "bit_ops.h"
 
 #include <stdio.h>
 #include <stdexcept>
@@ -33,6 +34,65 @@ namespace gr
 {
 namespace quadratiq
 {
+
+///////////////////////////////////////////////////////////////////
+// VITA PACKET CONSTANTS FOR QUADRATIQ
+typedef enum
+{
+    vrt_pkt_type_data=01,
+    vrt_pkt_type_context=0x4,
+
+    vrt_pkt_type_unknown=0x0000
+} vrt_pkt_type_t;
+
+////////////////////////////////////////
+// HEADER
+#define VITA_HEADER_MISC_DATA_CONST (0x46)
+#define VITA_HEADER_MISC_CTXT_CONST (0x16)
+// packet size
+#define VITA_HEADER_PKT_SIZE_OFFSET (0)
+#define VITA_HEADER_PKT_SIZE_LEN (16)
+// packet count (modulo 16)
+#define VITA_HEADER_PKT_COUNT_OFFSET (16)
+#define VITA_HEADER_PKT_COUNT_LEN (4)
+// packet C T R TSI TSF
+#define VITA_HEADER_MISC_OFFSET (20)
+#define VITA_HEADER_MISC_LEN (8)
+// packet type
+#define VITA_HEADER_PKT_TYPE_OFFSET (28)
+#define VITA_HEADER_PKT_TYPE_LEN (4)
+////////////////////////////////////////
+
+#define VITA_HEADER_OFFSET (0)
+#define VITA_STREAM_OFFSET (1)
+#define VITA_TIMESTAMP_SEC_OFFSET (2)
+#define VITA_TIMESTAMP_FRACT_SEC_HIGH_OFFSET (3)
+#define VITA_TIMESTAMP_FRACT_SEC_LOW_OFFSET (4)
+#define VITA_PAYLOAD_OFFSET (5)
+
+// 1 for header, 1 for stream ID, 3 for timestamps, 1 for trailer=6
+#define VITA_META_NUM_WORDS (6)
+
+// we're assuming a jumbo frame and always using a fixed length
+#define VITA_NUM_SAMPLES (2032)
+#define VITA_PKT_NUM_WORDS (VITA_META_NUM_WORDS+VITA_NUM_SAMPLES)
+
+struct vrt_header_t
+{
+    vrt_pkt_type_t type;
+    uint8_t pkt_count;
+    uint16_t pkt_size;
+};
+
+struct vrt_packet_t
+{    vrt_header_t header;
+    uint32_t stream_id;
+    float timestamp;
+
+    uint32_t *p_data;
+    uint16_t num_data_words;
+};
+///////////////////////////////////////////////////////////////////
 
 qtiq_vrt::qtiq_vrt( std::string vrt_ip, uint32_t vrt_port, uint32_t dest_port, uint32_t base_stream_id )
 {
@@ -51,11 +111,6 @@ qtiq_vrt::~qtiq_vrt()
     {
         close(d_vrt_fd);
     }
-}
-
-void
-qtiq_vrt::receive_data_packet( uint32_t *p_stream1, uint32_t *p_stream2 )
-{
 }
 
 bool
@@ -102,6 +157,95 @@ qtiq_vrt::create_socket( const char *p_vrt_ip, uint32_t vrt_port, uint32_t dest_
     printf("Socket created successfully!\r\n");
 
     return (success);
+}
+
+void
+qtiq_vrt::receive_data_packet( int16_t *p_stream1 )
+{
+    int32_t num_bytes=0;
+    uint32_t buf[VITA_PKT_NUM_WORDS];
+    vrt_packet_t pkt;
+
+receive_data_pkt:
+    // receive a packet
+    if( recv(d_vrt_fd, buf, VITA_PKT_NUM_WORDS*sizeof(uint32_t), 0) > 0 )
+    {
+        if( parse_vrt_packet( buf, &pkt ) == true )
+        {
+            // make sure it's a data packet with our stream ID
+            if( (pkt.header.type == vrt_pkt_type_data) &&
+                (pkt.stream_id == d_base_id) )
+            {
+                // assume that the stream is large enough to hold our data
+                memcpy( p_stream1,
+                        &(buf[VITA_PAYLOAD_OFFSET]),
+                        VITA_NUM_SAMPLES*sizeof(uint32_t) );                        
+            }
+            else
+            {
+                // TODO: handle differently
+                goto receive_data_pkt;
+            }
+        }
+    }
+}
+
+bool
+qtiq_vrt::parse_vrt_packet( uint32_t *p_raw_pkt, vrt_packet_t *p_pkt )
+{
+    bool status=true;
+    uint32_t data;
+    uint32_t tmp;
+    uint8_t misc;
+
+
+    /////////////////////////////////////
+    // populate the header
+    data = ntohl(p_raw_pkt[VITA_HEADER_OFFSET]);
+
+    // parse the type
+    tmp=BF_GET(data, VITA_HEADER_PKT_TYPE_OFFSET, VITA_HEADER_PKT_TYPE_LEN);
+    switch( tmp )
+    {
+        case vrt_pkt_type_data:
+            p_pkt->header.type = vrt_pkt_type_data;
+            misc = VITA_HEADER_MISC_DATA_CONST;
+            break;
+
+        case vrt_pkt_type_context:
+            p_pkt->header.type = vrt_pkt_type_context;
+            misc = VITA_HEADER_MISC_CTXT_CONST;
+            break;
+
+        default:
+            throw std::runtime_error("Received unknown packet type");
+            status=false;
+            break;
+    }
+
+    // make sure the MISC is ok
+    tmp=BF_GET(data, VITA_HEADER_MISC_OFFSET, VITA_HEADER_MISC_LEN);
+    if( tmp != misc )
+    {
+        throw std::runtime_error("Received malformed packet");
+        status=false;
+    }
+
+    // grab the packet size
+    tmp=BF_GET(data, VITA_HEADER_PKT_COUNT_OFFSET, VITA_HEADER_PKT_COUNT_LEN);
+    p_pkt->header.pkt_count = tmp;
+
+    // grab the packet count
+    tmp=BF_GET(data, VITA_HEADER_PKT_SIZE_OFFSET, VITA_HEADER_PKT_SIZE_LEN);
+    p_pkt->header.pkt_size = tmp;
+    /////////////////////////////////////
+
+    /////////////////////////////////////
+    // stream ID
+    p_pkt->stream_id = ntohl(p_raw_pkt[VITA_STREAM_OFFSET]);
+    /////////////////////////////////////
+
+    return (status);
 }
 
 }  /* namespace quadratiq */

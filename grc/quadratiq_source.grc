@@ -199,7 +199,7 @@
     </param>
     <param>
       <key>fftsize</key>
-      <value>1024</value>
+      <value>2048</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -443,11 +443,11 @@
     </param>
     <param>
       <key>ymax</key>
-      <value>10</value>
+      <value>140</value>
     </param>
     <param>
       <key>ymin</key>
-      <value>-140</value>
+      <value>-10</value>
     </param>
     <param>
       <key>units</key>

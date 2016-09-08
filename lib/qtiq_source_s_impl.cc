@@ -68,8 +68,11 @@ namespace gr {
     {
       short *out = (short *) output_items[0];
 
-      // Do <+signal processing+>
-
+      // receive a data packet
+      m_p_chipB->receive_data_packet( out );
+      // TODO: actually parse # samples
+      noutput_items = 2032; // assuming jumbo frame
+      
       // Tell runtime system how many output items we produced.
       return noutput_items;
     }
