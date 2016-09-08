@@ -18,34 +18,32 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_IMPL_H
-#define INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_IMPL_H
+#ifndef INCLUDED_QUADRATIQ_QTIQ_VRT_H
+#define INCLUDED_QUADRATIQ_QTIQ_VRT_H
 
-#include <quadratiq/qtiq_source_s.h>
-
-#include <qtiq_vrt.h>
+#include <stdint.h>
+#include <cstring>
+#include <string>
 
 namespace gr {
   namespace quadratiq {
 
-    class qtiq_source_s_impl : public qtiq_source_s
-    {
-     private:
-        qtiq_vrt *m_p_chipA;
-        qtiq_vrt *m_p_chipB;
+      class qtiq_vrt
+      {
+      private:
+          int32_t d_vrt_fd;
+          uint32_t d_base_id;
+          uint8_t d_pkt_count;
 
-     public:
-      qtiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port);
-      ~qtiq_source_s_impl();
+          bool create_socket( const char *p_vrt_ip, uint32_t vrt_port, uint32_t dest_port );
 
-      // Where all the action really happens
-      int work(int noutput_items,
-         gr_vector_const_void_star &input_items,
-         gr_vector_void_star &output_items);
-    };
+      public:
+          qtiq_vrt(std::string vrt_ip, uint32_t vrt_port, uint32_t dest_port, uint32_t base_stream_id);
+          ~qtiq_vrt();
 
+          void receive_data_packet( uint32_t *p_stream1, uint32_t *p_stream2 );
+      };
   } // namespace quadratiq
 } // namespace gr
 
-#endif /* INCLUDED_QUADRATIQ_QTIQ_SOURCE_S_IMPL_H */
-
+#endif /* INCLUDED_QUADRATIQ_QTIQ_VRT_H */

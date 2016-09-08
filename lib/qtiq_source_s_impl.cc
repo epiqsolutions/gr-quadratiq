@@ -27,7 +27,9 @@
 
 namespace gr {
   namespace quadratiq {
-
+      
+#define DEFAULT_BASE_ID (1935998976)
+      
     qtiq_source_s::sptr
     qtiq_source_s::make(std::string ctrl_ip, uint32_t ctrl_port)
     {
@@ -42,13 +44,21 @@ namespace gr {
       : gr::sync_block("qtiq_source_s",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, 1, sizeof(short)))
-    {}
+    {
+        // create the VRT stream
+        //m_p_chipA = new qtiq_vrt( "192.168.5.2", 8000, 9880, DEFAULT_BASE_ID );
+        m_p_chipA = NULL;
+        m_p_chipB = new qtiq_vrt( "192.168.4.6", 8000, 9879, DEFAULT_BASE_ID+2 );
+        //m_p_chipB = NULL;
+    }
 
     /*
      * Our virtual destructor.
      */
     qtiq_source_s_impl::~qtiq_source_s_impl()
     {
+        delete m_p_chipA;
+        delete m_p_chipB;
     }
 
     int
