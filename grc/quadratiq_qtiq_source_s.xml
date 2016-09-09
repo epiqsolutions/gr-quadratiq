@@ -29,7 +29,11 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
+    <name>B1</name>
+    <type>short</type>
+  </source>
+  <source>
+    <name>B2</name>
     <type>short</type>
   </source>
 </block>

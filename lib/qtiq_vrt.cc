@@ -158,13 +158,13 @@ qtiq_vrt::create_socket( const char *p_vrt_ip, uint32_t vrt_port, uint32_t dest_
 }
 
 void
-qtiq_vrt::receive_data_packet( int16_t *p_stream1 )
+qtiq_vrt::receive_data_packet( int16_t *p_stream1, int16_t *p_stream2 )
 {
     int32_t num_bytes=0;
     uint32_t buf[VITA_PKT_NUM_WORDS];
     vrt_packet_t pkt;
 
-receive_data_pkt:
+receive_data_pkt1:
     // receive a packet
     if( recv(d_vrt_fd, buf, VITA_PKT_NUM_WORDS*sizeof(uint32_t), 0) > 0 )
     {
@@ -182,7 +182,30 @@ receive_data_pkt:
             else
             {
                 // TODO: handle differently
-                goto receive_data_pkt;
+                goto receive_data_pkt1;
+            }
+        }
+    }
+
+receive_data_pkt2:
+    // receive a packet
+    if( recv(d_vrt_fd, buf, VITA_PKT_NUM_WORDS*sizeof(uint32_t), 0) > 0 )
+    {
+        if( parse_vrt_packet( buf, &pkt ) == true )
+        {
+            // make sure it's a data packet with our stream ID
+            if( (pkt.header.type == vrt_pkt_type_data) &&
+                (pkt.stream_id == d_base_id+1) )
+            {
+                // assume that the stream is large enough to hold our data
+                memcpy( p_stream2,
+                        &(buf[VITA_PAYLOAD_OFFSET]),
+                        VITA_NUM_SAMPLES*sizeof(uint32_t) );                        
+            }
+            else
+            {
+                // TODO: handle differently
+                goto receive_data_pkt2;
             }
         }
     }

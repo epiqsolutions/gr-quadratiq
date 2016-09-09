@@ -27,9 +27,7 @@
 
 namespace gr {
   namespace quadratiq {
-      
-#define DEFAULT_BASE_ID (1935998976)
-      
+            
     qtiq_source_s::sptr
     qtiq_source_s::make(std::string ctrl_ip, uint32_t ctrl_port)
     {
@@ -43,7 +41,7 @@ namespace gr {
     qtiq_source_s_impl::qtiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port)
       : gr::sync_block("qtiq_source_s",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, 1, sizeof(short)))
+              gr::io_signature::make(2, 2, sizeof(short)))
     {
         set_output_multiple(qtiq_vrt::VITA_NUM_SAMPLES*2);
         
@@ -68,10 +66,11 @@ namespace gr {
         gr_vector_const_void_star &input_items,
         gr_vector_void_star &output_items)
     {
-      short *out = (short *) output_items[0];
+      short *out1 = (short *) output_items[0];
+      short *out2 = (short *) output_items[1];
 
       // receive a data packet
-      m_p_chipB->receive_data_packet( out );
+      m_p_chipB->receive_data_packet( out1, out2 );
       // TODO: actually parse # samples
       noutput_items = (qtiq_vrt::VITA_NUM_SAMPLES)*2; 
       
