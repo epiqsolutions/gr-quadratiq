@@ -48,6 +48,8 @@ namespace gr {
         // create the VRT stream
         m_p_chipA = new qtiq_vrt( "192.168.5.2", 8000, 9880, DEFAULT_BASE_ID );
         m_p_chipB = new qtiq_vrt( "192.168.4.6", 8000, 9879, DEFAULT_BASE_ID+2 );
+
+        m_p_ctrl = new srfs::srfs_cmd( ctrl_ip.c_str(), ctrl_port, "QUADRATIQ-RX" );
     }
 
     /*
@@ -57,6 +59,7 @@ namespace gr {
     {
         delete m_p_chipA;
         delete m_p_chipB;
+        delete m_p_ctrl;
     }
 
     int

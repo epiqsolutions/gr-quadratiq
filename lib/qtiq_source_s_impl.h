@@ -24,6 +24,7 @@
 #include <quadratiq/qtiq_source_s.h>
 
 #include <qtiq_vrt.h>
+#include <srfs_interface.h>
 
 namespace gr {
   namespace quadratiq {
@@ -33,6 +34,8 @@ namespace gr {
      private:
         qtiq_vrt *m_p_chipA;
         qtiq_vrt *m_p_chipB;
+
+        srfs::srfs_cmd *m_p_ctrl;
 
      public:
       qtiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port);
