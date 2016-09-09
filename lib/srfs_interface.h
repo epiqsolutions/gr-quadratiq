@@ -28,6 +28,8 @@
 #include <stdint.h>
 #include <netinet/in.h>
 
+#include <map>
+
 /** This file contains utilities to assist with communicating
     with the SRFS app */
 
@@ -76,6 +78,19 @@ namespace srfs {
         int32_t d_cmd_fd;
         uint32_t d_config_port;
 
+        uint32_t d_rx_freqA;
+        uint32_t d_rx_freqB;
+
+        std::string m_str_hardware_block;
+
+        // string to srfs_param_t map
+        typedef std::map<const std::string, srfs::srfs_param_t> param_map;
+        // pair string to srfs_param_t
+        typedef std::pair<const std::string, srfs::srfs_param_t> param_pair;
+        // map of valid parameters and associated strings
+        param_map m_params;
+
+        void send_config();
         void send_msg( char* msg, int length );
         void receive_msg( char *response, int length );
 
@@ -84,6 +99,19 @@ namespace srfs {
     public:
         srfs_cmd( const char *p_ip, uint32_t port, const char *p_hw_name );
         ~srfs_cmd();
+
+        // adds a parameter to the maveriq_params map
+        void add_param( const std::string token,
+                        srfs::SRFS_DATATYPES data_type,
+                        void *p_value,
+                        int64_t min_value,
+                        int64_t max_value,
+                        float resolution,
+                        const std::string *p_strings );
+
+        // configures parameter specified by token to the value provided
+        void set_param( const std::string token, void *pValue );
+
     };
 } // namespace SRFS
 

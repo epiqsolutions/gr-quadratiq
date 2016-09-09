@@ -27,6 +27,24 @@
 
 namespace gr {
   namespace quadratiq {
+
+#define NUM_RECV_ATTEMPTS (3)
+
+#define FREQUENCY_MIN  47000000ULL
+#define FREQUENCY_MAX 6000000000ULL
+#define FREQUENCY_RESOLUTION 1
+
+#define SAMPLE_RATE_MIN   233000
+#define SAMPLE_RATE_MAX 40000000
+#define SAMPLE_RATE_RESOLUTION 1
+
+#define BANDWIDTH_MIN   233000
+#define BANDWIDTH_MAX 40000000
+#define BANDWIDTH_RESOLUTION 1
+
+#define RX_GAIN_MIN        0
+#define RX_GAIN_MAX       76
+#define RX_GAIN_RESOLUTION 1
             
     qtiq_source_s::sptr
     qtiq_source_s::make(std::string ctrl_ip, uint32_t ctrl_port)
@@ -50,6 +68,11 @@ namespace gr {
         m_p_chipB = new qtiq_vrt( "192.168.4.6", 8000, 9879, DEFAULT_BASE_ID+2 );
 
         m_p_ctrl = new srfs::srfs_cmd( ctrl_ip.c_str(), ctrl_port, "QUADRATIQ-RX" );
+        // initialize the parameters
+        init_srfs_params();
+        // initialize the default parameters
+        d_freqA = FREQUENCY_MIN;
+        d_freqB = FREQUENCY_MIN;
     }
 
     /*
@@ -60,6 +83,54 @@ namespace gr {
         delete m_p_chipA;
         delete m_p_chipB;
         delete m_p_ctrl;
+    }
+
+    uint64_t
+    qtiq_source_s_impl::set_center_freqA(uint64_t freq)
+    {
+        m_p_ctrl->set_param( "A1:frequency", &freq);
+        return (d_freqA);
+    }
+      
+    uint64_t
+    qtiq_source_s_impl::center_freqA(void)
+    {
+        return (d_freqA);
+    }
+
+    uint64_t
+    qtiq_source_s_impl::set_center_freqB(uint64_t freq)
+    {
+        m_p_ctrl->set_param( "B1:frequency", &freq);
+        return (d_freqB);
+    }
+      
+    uint64_t
+    qtiq_source_s_impl::center_freqB(void)
+    {
+        return (d_freqB);
+    }
+
+
+    void
+    qtiq_source_s_impl::init_srfs_params(void)
+    {
+        // frequency
+        m_p_ctrl->add_param( "A1:frequency",
+                             srfs::SRFS_UINT64,
+                             (void*)(&d_freqA),
+                             FREQUENCY_MIN,
+                             FREQUENCY_MAX,
+                             FREQUENCY_RESOLUTION,
+                             NULL );
+        // frequency
+        m_p_ctrl->add_param( "B1:frequency",
+                             srfs::SRFS_UINT64,
+                             (void*)(&d_freqB),
+                             FREQUENCY_MIN,
+                             FREQUENCY_MAX,
+                             FREQUENCY_RESOLUTION,
+                             NULL );
     }
 
     int

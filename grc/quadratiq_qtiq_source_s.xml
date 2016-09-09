@@ -5,7 +5,11 @@
   <category>[quadratiq]</category>
   <throttle>1</throttle>
   <import>import quadratiq</import>
-  <make>quadratiq.qtiq_source_s($ctrl_ip, $ctrl_port)</make>
+  <make>quadratiq.qtiq_source_s($ctrl_ip, $ctrl_port)
+self.$(id).set_center_freqA($freqA)
+self.$(id).set_center_freqB($freqB)
+  </make>
+  
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -22,6 +26,22 @@
     <key>ctrl_port</key>
     <type>int</type>
   </param>
+
+    <param>
+    <name>Chip A Freq (Hz)</name>
+    <key>freqA</key>
+    <type>real</type>
+  </param>
+
+  <param>
+    <name>Chip B Freq (Hz)</name>
+    <key>freqB</key>
+    <type>real</type>
+  </param>
+
+  <!-- Check ranges of parameters -->
+  <check>($freqA &gt;= 47e6) and ($freqA &lt;= 6000e6)</check>
+  <check>($freqB &gt;= 47e6) and ($freqB &lt;= 6000e6)</check>
 
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)

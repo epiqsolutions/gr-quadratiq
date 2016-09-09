@@ -47,6 +47,25 @@ namespace gr {
        * creating new instances.
        */
       static sptr make(std::string ctrl_ip, uint32_t ctrl_port);
+
+      /*! 
+       * \brief Set center frequency for chip A with Hz resolution.
+       * \param freq The frequency in Hz
+       * \return the actual center frequency
+       *
+       * Set the center frequency of chip A of Quadratiq
+       */
+      virtual uint64_t set_center_freqA(uint64_t freq) = 0;
+
+      /*! 
+       * \brief Set center frequency for chip B with Hz resolution.
+       * \param freq The frequency in Hz
+       * \return the actual center frequency
+       *
+       * Set the center frequency of chip B of Quadratiq
+       */
+      virtual uint64_t set_center_freqB(uint64_t freq) = 0;
+
     };
 
   } // namespace quadratiq

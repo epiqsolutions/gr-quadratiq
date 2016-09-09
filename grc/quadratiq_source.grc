@@ -93,7 +93,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 160)</value>
+      <value>(424, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -101,11 +101,146 @@
     </param>
     <param>
       <key>id</key>
-      <value>samp_rate</value>
+      <value>bandwidthA</value>
     </param>
     <param>
       <key>value</key>
-      <value>32000</value>
+      <value>10000000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(424, 76)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>bandwidthB</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>10000000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(208, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>freqA</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>800000000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(208, 76)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>freqB</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>900000000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(304, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>sample_rateA</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>10000000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(304, 76)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>sample_rateB</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>10000000</value>
     </param>
   </block>
   <block>
@@ -128,7 +263,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 172)</value>
+      <value>(280, 172)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -175,7 +310,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 236)</value>
+      <value>(280, 236)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -222,7 +357,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 372)</value>
+      <value>(280, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -269,7 +404,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 308)</value>
+      <value>(280, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -312,7 +447,7 @@
     </param>
     <param>
       <key>bw</key>
-      <value>samp_rate</value>
+      <value>sample_rateA</value>
     </param>
     <param>
       <key>alias</key>
@@ -320,7 +455,7 @@
     </param>
     <param>
       <key>fc</key>
-      <value>0</value>
+      <value>freqA</value>
     </param>
     <param>
       <key>comment</key>
@@ -344,7 +479,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(608, 184)</value>
+      <value>(480, 184)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -611,7 +746,7 @@
     </param>
     <param>
       <key>bw</key>
-      <value>samp_rate</value>
+      <value>sample_rateB</value>
     </param>
     <param>
       <key>alias</key>
@@ -619,7 +754,7 @@
     </param>
     <param>
       <key>fc</key>
-      <value>0</value>
+      <value>freqB</value>
     </param>
     <param>
       <key>comment</key>
@@ -643,7 +778,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(608, 320)</value>
+      <value>(480, 312)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -901,6 +1036,14 @@
       <value></value>
     </param>
     <param>
+      <key>freqA</key>
+      <value>800000000</value>
+    </param>
+    <param>
+      <key>freqB</key>
+      <value>900000000</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -922,7 +1065,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(104, 232)</value>
+      <value>(8, 232)</value>
     </param>
     <param>
       <key>_rotation</key>

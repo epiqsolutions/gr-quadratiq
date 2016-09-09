@@ -253,9 +253,7 @@ namespace srfs {
 
         snprintf(buf, SRFS_MSG_SIZE, "%s", "subscriptions?\r\n");
         send_msg( buf, SRFS_MSG_SIZE );
-        printf("message sent, trying to receive response\r\n");
         receive_msg( buf, SRFS_MSG_SIZE );
-        printf("received initial message %s\r\n", buf);
 
         // pull out the port #
         p_str = strtok( buf, " :" );
@@ -275,8 +273,7 @@ namespace srfs {
             }
             p_str = strtok( NULL, " :");
         }
-
-        printf("srfs msg success!\r\n");
+        m_str_hardware_block = p_hw_name;
     }
 
     srfs_cmd::~srfs_cmd()
@@ -309,18 +306,52 @@ namespace srfs {
         return (success);
     }
 
+    void 
+    srfs_cmd::add_param( const std::string token,
+                         srfs::SRFS_DATATYPES data_type,
+                         void *p_value,
+                         int64_t min_value,
+                         int64_t max_value,
+                         float resolution,
+                         const std::string *p_strings )
+    {
+        srfs_param_t param;
+        
+        param.data_type = data_type;
+        param.p_value = p_value;
+        param.min_value = min_value;
+        param.max_value = max_value;
+        param.resolution = resolution;
+        param.p_strings = p_strings;
+
+        m_params[token] = param;
+    }
+
+
     void
     srfs_cmd::send_msg( char * msg, int length )
     {
         // make sure the buffer is null terminated
         msg[length-1] = '\0';
         // send the message
-        if( send(d_cmd_fd, msg, strlen(msg), 0) != 0 )
+        send(d_cmd_fd, msg, strlen(msg), 0);
+    }
+
+    // configures parameter specified by token to the value provided
+    void
+    srfs_cmd::set_param( const std::string token, void *pValue )
+    {
+        param_map::iterator iter;
+
+        iter = m_params.find(token);
+        if( iter != m_params.end() )
         {
-            #if 0
-            printf("send fail %s, error %s\r\n", msg, strerror(errno));
-            throw std::runtime_error("unable to send SRFS cmd message");
-            #endif
+            srfs::set_param(&(iter->second), pValue);
+            send_config();
+        }
+        else
+        {
+            throw std::invalid_argument("unknown parameter specified");
         }
     }
 
@@ -331,6 +362,89 @@ namespace srfs {
         {
             throw std::runtime_error("unable to receive SRFS response");
         }
+    }
+
+    void
+    srfs_cmd::send_config()
+    {
+        char cmd[SRFS_MSG_SIZE];
+        char rcv[SRFS_MSG_SIZE];
+
+        char *pParam;
+        char *pValue;
+    
+        int index=0;
+        
+        param_map::iterator iter;
+
+        index = snprintf(cmd, SRFS_MSG_SIZE, "config! block %s:%d",
+                         m_str_hardware_block.c_str(), d_config_port);
+        // configure all of the parameters
+        for( iter=m_params.begin(); 
+             iter != m_params.end(); 
+             iter++ ) {
+            
+            if( iter->second.data_type != srfs::SRFS_UINT32_ACTUAL ) {
+                index += snprintf( &cmd[index], SRFS_MSG_SIZE-index, " %s ", (iter->first).c_str() );
+            }
+            
+            // format the parameters based on data_type
+            switch( iter->second.data_type ) {
+                case srfs::SRFS_UINT64:
+                    index += snprintf( &cmd[index], SRFS_MSG_SIZE-index, "%lu", 
+                                       (*(uint64_t*)(iter->second.p_value)) );
+                    break;
+                    
+                case srfs::SRFS_UINT32:
+                    index += snprintf( &cmd[index], SRFS_MSG_SIZE-index, "%u", 
+				   (*(uint32_t*)(iter->second.p_value)) );
+                    break;
+                    
+                case srfs::SRFS_UINT16:
+                    index += snprintf( &cmd[index], SRFS_MSG_SIZE-index, "%hu", 
+                                       (*(uint16_t*)(iter->second.p_value)) );
+                    break;
+                    
+                case srfs::SRFS_UINT8:
+                    index += snprintf( &cmd[index], SRFS_MSG_SIZE-index, "%hhu", 
+                                       (*(uint8_t*)(iter->second.p_value)) );
+                    break;
+                    
+                case srfs::SRFS_FLOAT:
+                    index += snprintf( &cmd[index], SRFS_MSG_SIZE-index, "%f", 
+                                       (*(float*)(iter->second.p_value)) );
+                    break;
+                    
+                case srfs::SRFS_ENUM:
+                    index += snprintf( &cmd[index], SRFS_MSG_SIZE-index, "%s", 
+                                       (iter->second.p_strings[(*(int*)(iter->second.p_value))]).c_str() );
+                    break;
+                    
+                case srfs::SRFS_UINT32_ACTUAL:
+                    // this parameter is only returned as an actual parameter, so don't 
+                    // allow it to be set
+                    break;
+            }
+        }
+        index += snprintf( &cmd[index], SRFS_MSG_SIZE-index, "\n" );
+
+        send_msg( cmd, index+1 );
+        receive_msg( rcv, SRFS_MSG_SIZE );
+
+        // parse the response, update the returned parameters
+        pParam = strtok( rcv, " " );
+        while( pParam != NULL )	{
+            iter = m_params.find(pParam);
+            if( iter != m_params.end() ) {
+                pParam = strtok( NULL, " " );
+                update_param( &(iter->second), (const char*)(pParam) );
+            }
+            else if( strncmp(pParam, "NOK", 4) == 0 ) {
+                throw std::invalid_argument("unexpected error with send_config");
+            }
+            // get the next parameter
+            pParam = strtok( NULL, " " );
+        } // end parsing
     }
     
 } // namespace srfs

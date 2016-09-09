@@ -37,9 +37,25 @@ namespace gr {
 
         srfs::srfs_cmd *m_p_ctrl;
 
+        uint64_t d_freqA;
+        uint64_t d_freqB;
+
+        // initializes params map
+        void init_srfs_params(void);
+
+        // configures parameter specified by token to the value provided
+        void set_param( const std::string token, void *pValue );
+
      public:
       qtiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port);
       ~qtiq_source_s_impl();
+
+      // configuration functions
+      uint64_t set_center_freqA(uint64_t freq);
+      uint64_t center_freqA(void);
+
+      uint64_t set_center_freqB(uint64_t freq);
+      uint64_t center_freqB(void);
 
       // Where all the action really happens
       int work(int noutput_items,
