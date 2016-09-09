@@ -246,7 +246,7 @@
     </param>
     <param>
       <key>fftsize</key>
-      <value>2048</value>
+      <value>1024</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -442,7 +442,7 @@
     </param>
     <param>
       <key>name</key>
-      <value>""</value>
+      <value>"B1"</value>
     </param>
     <param>
       <key>nconnections</key>
@@ -545,7 +545,7 @@
     </param>
     <param>
       <key>fftsize</key>
-      <value>2048</value>
+      <value>1024</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -741,7 +741,7 @@
     </param>
     <param>
       <key>name</key>
-      <value>""</value>
+      <value>"B2"</value>
     </param>
     <param>
       <key>nconnections</key>

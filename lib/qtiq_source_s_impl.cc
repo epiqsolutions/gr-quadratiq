@@ -71,6 +71,7 @@ namespace gr {
 
       // receive a data packet
       m_p_chipB->receive_data_packet( out1, out2 );
+      
       // TODO: actually parse # samples
       noutput_items = (qtiq_vrt::VITA_NUM_SAMPLES)*2; 
       
