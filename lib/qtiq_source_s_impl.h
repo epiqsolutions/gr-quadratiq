@@ -49,6 +49,11 @@ namespace gr {
         uint32_t d_actualBandwidthA;
         uint32_t d_actualBandwidthB;
 
+        uint8_t d_gainA1;
+        uint8_t d_gainA2;
+        uint8_t d_gainB1;
+        uint8_t d_gainB2;
+
         // initializes params map
         void init_srfs_params(void);
 
@@ -76,7 +81,19 @@ namespace gr {
       uint32_t bandwidthA();  
 
       uint32_t set_bandwidthB(uint32_t bandwidth);
-      uint32_t bandwidthB();  
+      uint32_t bandwidthB();
+
+      uint8_t set_gainA1(uint8_t gain);
+      uint8_t gainA1();
+
+      uint8_t set_gainA2(uint8_t gain);
+      uint8_t gainA2();
+
+      uint8_t set_gainB1(uint8_t gain);
+      uint8_t gainB1();
+
+      uint8_t set_gainB2(uint8_t gain);
+      uint8_t gainB2();
 
       // Where all the action really happens
       int work(int noutput_items,

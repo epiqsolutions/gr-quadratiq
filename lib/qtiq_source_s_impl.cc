@@ -77,6 +77,12 @@ namespace gr {
         d_sampleRateB = SAMPLE_RATE_MIN;
         d_bandwidthA = BANDWIDTH_MIN;
         d_bandwidthB = BANDWIDTH_MIN;
+
+        d_gainA1 = RX_GAIN_MAX;
+        d_gainA2 = RX_GAIN_MAX;
+        d_gainB1 = RX_GAIN_MAX;
+        d_gainB2 = RX_GAIN_MAX;
+
     }
 
     /*
@@ -162,7 +168,56 @@ namespace gr {
     {
         return (d_bandwidthB);
     }
+      
+    uint8_t
+    qtiq_source_s_impl::set_gainA1(uint8_t gain)
+    {
+        m_p_ctrl->set_param("A1:rx_gain", &gain);
+        return (d_gainA1);
+    }
+    uint8_t
+    qtiq_source_s_impl::gainA1()
+    {
+        return (d_gainA1);
+    }
 
+    uint8_t
+    qtiq_source_s_impl::set_gainA2(uint8_t gain)
+    {
+        m_p_ctrl->set_param("A2:rx_gain", &gain);
+        return (d_gainA2);
+    }
+    uint8_t
+    qtiq_source_s_impl::gainA2()
+    {
+        return (d_gainA2);
+    }
+
+    uint8_t
+    qtiq_source_s_impl::set_gainB1(uint8_t gain)
+    {
+        m_p_ctrl->set_param("B1:rx_gain", &gain);
+        return (d_gainB1);
+    }
+    uint8_t
+    qtiq_source_s_impl::gainB1()
+    {
+        return (d_gainB1);
+    }
+
+    uint8_t
+    qtiq_source_s_impl::set_gainB2(uint8_t gain)
+    {
+        m_p_ctrl->set_param("B2:rx_gain", &gain);
+        return (d_gainB2);
+    }
+    uint8_t
+    qtiq_source_s_impl::gainB2()
+    {
+        return (d_gainB2);
+    }
+
+      
     void
     qtiq_source_s_impl::init_srfs_params(void)
     {
@@ -234,6 +289,35 @@ namespace gr {
                              0,
                              0,
                              0,
+                             NULL );
+        // rx gain
+        m_p_ctrl->add_param( "A1:rx_gain",
+                             srfs::SRFS_UINT8,
+                             (void*)(&d_gainA1),
+                             RX_GAIN_MIN,
+                             RX_GAIN_MAX,
+                             RX_GAIN_RESOLUTION,
+                             NULL );
+        m_p_ctrl->add_param( "A2:rx_gain",
+                             srfs::SRFS_UINT8,
+                             (void*)(&d_gainA2),
+                             RX_GAIN_MIN,
+                             RX_GAIN_MAX,
+                             RX_GAIN_RESOLUTION,
+                             NULL );
+        m_p_ctrl->add_param( "B1:rx_gain",
+                             srfs::SRFS_UINT8,
+                             (void*)(&d_gainB1),
+                             RX_GAIN_MIN,
+                             RX_GAIN_MAX,
+                             RX_GAIN_RESOLUTION,
+                             NULL );
+        m_p_ctrl->add_param( "B2:rx_gain",
+                             srfs::SRFS_UINT8,
+                             (void*)(&d_gainB2),
+                             RX_GAIN_MIN,
+                             RX_GAIN_MAX,
+                             RX_GAIN_RESOLUTION,
                              NULL );
     }
 

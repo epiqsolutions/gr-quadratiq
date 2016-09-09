@@ -150,6 +150,69 @@ namespace gr {
        */
       virtual uint32_t bandwidthB(void) = 0;
 
+      /*!
+       * \brief Set the value of the A1 gain 
+       * \param gain rx gain value (0-76 dB)
+       * \return actual rx gain
+       *
+       * Set the value of the Rx gain
+       */
+      virtual uint8_t set_gainA1(uint8_t gain) = 0;
+       /*!
+	* \brief Get the value of the A1 gain 
+	* \return actual rx gain
+	*
+	* Get the value of the Rx gain
+	*/
+       virtual uint8_t gainA1(void) = 0;
+
+       /*!
+       * \brief Set the value of the A2 gain 
+       * \param gain rx gain value (0-76 dB)
+       * \return actual rx gain
+       *
+       * Set the value of the Rx gain
+       */
+      virtual uint8_t set_gainA2(uint8_t gain) = 0;
+       /*!
+	* \brief Get the value of the A2 gain 
+	* \return actual rx gain
+	*
+	* Get the value of the Rx gain
+	*/
+       virtual uint8_t gainA2(void) = 0;
+
+       /*!
+       * \brief Set the value of the B1 gain 
+       * \param gain rx gain value (0-76 dB)
+       * \return actual rx gain
+       *
+       * Set the value of the Rx gain
+       */
+      virtual uint8_t set_gainB1(uint8_t gain) = 0;
+       /*!
+	* \brief Get the value of the B1 gain 
+	* \return actual rx gain
+	*
+	* Get the value of the Rx gain
+	*/
+       virtual uint8_t gainB1(void) = 0;
+
+       /*!
+       * \brief Set the value of the B2 gain 
+       * \param gain rx gain value (0-76 dB)
+       * \return actual rx gain
+       *
+       * Set the value of the Rx gain
+       */
+      virtual uint8_t set_gainB2(uint8_t gain) = 0;
+       /*!
+	* \brief Get the value of the B2 gain 
+	* \return actual rx gain
+	*
+	* Get the value of the Rx gain
+	*/
+       virtual uint8_t gainB2(void) = 0;
     };
 
   } // namespace quadratiq
