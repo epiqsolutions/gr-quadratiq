@@ -3,6 +3,7 @@
   <name>qtiq_source_s</name>
   <key>quadratiq_qtiq_source_s</key>
   <category>[quadratiq]</category>
+  <throttle>1</throttle>
   <import>import quadratiq</import>
   <make>quadratiq.qtiq_source_s($ctrl_ip, $ctrl_port)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
