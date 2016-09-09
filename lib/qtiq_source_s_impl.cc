@@ -73,6 +73,10 @@ namespace gr {
         // initialize the default parameters
         d_freqA = FREQUENCY_MIN;
         d_freqB = FREQUENCY_MIN;
+        d_sampleRateA = SAMPLE_RATE_MIN;
+        d_sampleRateB = SAMPLE_RATE_MIN;
+        d_bandwidthA = BANDWIDTH_MIN;
+        d_bandwidthB = BANDWIDTH_MIN;
     }
 
     /*
@@ -111,6 +115,53 @@ namespace gr {
         return (d_freqB);
     }
 
+    uint32_t
+    qtiq_source_s_impl::set_sample_rateA(uint32_t sample_rate)
+    {
+        m_p_ctrl->set_param( "A1:sample_rate", &sample_rate);
+        return (d_sampleRateA);
+    }
+    uint32_t
+    qtiq_source_s_impl::sample_rateA(void)
+    {
+        return (d_sampleRateA);
+    }
+
+      uint32_t
+    qtiq_source_s_impl::set_sample_rateB(uint32_t sample_rate)
+    {
+        m_p_ctrl->set_param( "B1:sample_rate", &sample_rate);
+        return (d_sampleRateB);
+    }
+    uint32_t
+    qtiq_source_s_impl::sample_rateB(void)
+    {
+        return (d_sampleRateB);
+    }
+
+    uint32_t
+    qtiq_source_s_impl::set_bandwidthA(uint32_t bandwidth)
+    {
+        m_p_ctrl->set_param( "A1:bandwidth", &bandwidth );
+        return (d_bandwidthA);
+    }
+    uint32_t
+    qtiq_source_s_impl::bandwidthA(void)
+    {
+        return (d_bandwidthA);
+    }
+
+    uint32_t
+    qtiq_source_s_impl::set_bandwidthB(uint32_t bandwidth)
+    {
+        m_p_ctrl->set_param( "B1:bandwidth", &bandwidth );
+        return (d_bandwidthA);
+    }
+    uint32_t
+    qtiq_source_s_impl::bandwidthB(void)
+    {
+        return (d_bandwidthB);
+    }
 
     void
     qtiq_source_s_impl::init_srfs_params(void)
@@ -130,6 +181,59 @@ namespace gr {
                              FREQUENCY_MIN,
                              FREQUENCY_MAX,
                              FREQUENCY_RESOLUTION,
+                             NULL );
+
+        // sample rate
+        m_p_ctrl->add_param( "A1:sample_rate",
+                             srfs::SRFS_UINT32,
+                             (void*)(&d_sampleRateA),
+                             SAMPLE_RATE_MIN,
+                             SAMPLE_RATE_MAX,
+                             SAMPLE_RATE_RESOLUTION,
+                             NULL );
+        // sample rate
+        m_p_ctrl->add_param( "B1:sample_rate",
+                             srfs::SRFS_UINT32,
+                             (void*)(&d_sampleRateA),
+                             SAMPLE_RATE_MIN,
+                             SAMPLE_RATE_MAX,
+                             SAMPLE_RATE_RESOLUTION,
+                             NULL );
+        
+        // bandwidth
+        m_p_ctrl->add_param( "A1:bandwidth",
+                             srfs::SRFS_UINT32,
+                             (void*)(&d_bandwidthA),
+                             BANDWIDTH_MIN,
+                             BANDWIDTH_MAX,
+                             BANDWIDTH_RESOLUTION,
+                             NULL );
+        // bandwidth
+        m_p_ctrl->add_param( "B1:bandwidth",
+                             srfs::SRFS_UINT32,
+                             (void*)(&d_bandwidthB),
+                             BANDWIDTH_MIN,
+                             BANDWIDTH_MAX,
+                             BANDWIDTH_RESOLUTION,
+                             NULL );
+
+        // actual bandwidth, this parameter cannot be configured but represents
+        // the actual bandwidth setting
+        m_p_ctrl->add_param( "A1:actual_bandwidth",
+                             srfs::SRFS_UINT32_ACTUAL,
+                             (void*)(&d_actualBandwidthA),
+                             0,
+                             0,
+                             0,
+                             NULL );
+        // actual bandwidth, this parameter cannot be configured but represents
+        // the actual bandwidth setting
+        m_p_ctrl->add_param( "B1:actual_bandwidth",
+                             srfs::SRFS_UINT32_ACTUAL,
+                             (void*)(&d_actualBandwidthB),
+                             0,
+                             0,
+                             0,
                              NULL );
     }
 

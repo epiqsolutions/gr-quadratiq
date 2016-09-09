@@ -8,6 +8,10 @@
   <make>quadratiq.qtiq_source_s($ctrl_ip, $ctrl_port)
 self.$(id).set_center_freqA($freqA)
 self.$(id).set_center_freqB($freqB)
+self.$(id).set_sample_rateA($sampleRateA)
+self.$(id).set_sample_rateB($sampleRateB)
+self.$(id).set_bandwidthA($bandwidthA)
+self.$(id).set_bandwidthB($bandwidthB)
   </make>
   
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
@@ -27,9 +31,19 @@ self.$(id).set_center_freqB($freqB)
     <type>int</type>
   </param>
 
-    <param>
+  <param>
     <name>Chip A Freq (Hz)</name>
     <key>freqA</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Chip A Sample Rate (Hz)</name>
+    <key>sampleRateA</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Chip A Bandwidth (Hz)</name>
+    <key>bandwidthA</key>
     <type>real</type>
   </param>
 
@@ -38,10 +52,24 @@ self.$(id).set_center_freqB($freqB)
     <key>freqB</key>
     <type>real</type>
   </param>
+  <param>
+    <name>Chip B Sample Rate (Hz)</name>
+    <key>sampleRateB</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Chip B Bandwidth (Hz)</name>
+    <key>bandwidthB</key>
+    <type>real</type>
+  </param>
 
   <!-- Check ranges of parameters -->
   <check>($freqA &gt;= 47e6) and ($freqA &lt;= 6000e6)</check>
   <check>($freqB &gt;= 47e6) and ($freqB &lt;= 6000e6)</check>
+  <check>($sampleRateA &gt;= 233e3) and ($sampleRateA &lt;= 50e6)</check>
+  <check>($bandwidthA &gt;= 233e3) and ($bandwidthA &lt;= 50e6)</check>
+  <check>($sampleRateB &gt;= 233e3) and ($sampleRateB &lt;= 50e6)</check>
+  <check>($bandwidthB &gt;= 233e3) and ($bandwidthB &lt;= 50e6)</check>
 
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)

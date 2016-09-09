@@ -40,6 +40,15 @@ namespace gr {
         uint64_t d_freqA;
         uint64_t d_freqB;
 
+        uint32_t d_sampleRateA;
+        uint32_t d_sampleRateB;
+
+        uint32_t d_bandwidthA;
+        uint32_t d_bandwidthB;
+
+        uint32_t d_actualBandwidthA;
+        uint32_t d_actualBandwidthB;
+
         // initializes params map
         void init_srfs_params(void);
 
@@ -56,6 +65,18 @@ namespace gr {
 
       uint64_t set_center_freqB(uint64_t freq);
       uint64_t center_freqB(void);
+
+      uint32_t set_sample_rateA(uint32_t sample_rate);
+      uint32_t sample_rateA();  
+
+      uint32_t set_sample_rateB(uint32_t sample_rate);
+      uint32_t sample_rateB();  
+
+      uint32_t set_bandwidthA(uint32_t bandwidth);
+      uint32_t bandwidthA();  
+
+      uint32_t set_bandwidthB(uint32_t bandwidth);
+      uint32_t bandwidthB();  
 
       // Where all the action really happens
       int work(int noutput_items,

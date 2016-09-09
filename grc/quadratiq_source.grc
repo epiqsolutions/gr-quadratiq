@@ -1036,12 +1036,28 @@
       <value></value>
     </param>
     <param>
+      <key>bandwidthA</key>
+      <value>10000000</value>
+    </param>
+    <param>
       <key>freqA</key>
       <value>800000000</value>
     </param>
     <param>
+      <key>sampleRateA</key>
+      <value>10000000</value>
+    </param>
+    <param>
+      <key>bandwidthB</key>
+      <value>8000000</value>
+    </param>
+    <param>
       <key>freqB</key>
       <value>900000000</value>
+    </param>
+    <param>
+      <key>sampleRateB</key>
+      <value>8000000</value>
     </param>
     <param>
       <key>comment</key>
