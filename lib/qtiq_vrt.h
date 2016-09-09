@@ -43,7 +43,7 @@ namespace gr {
           qtiq_vrt(std::string vrt_ip, uint32_t vrt_port, uint32_t dest_port, uint32_t base_stream_id);
           ~qtiq_vrt();
 
-          void receive_data_packet( int16_t *p_stream1 );
+          void receive_data_packet( int16_t *p_stream1, int16_t *p_stream2 );
 
           static const uint32_t VITA_NUM_SAMPLES=2032;
       };

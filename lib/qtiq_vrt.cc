@@ -158,34 +158,55 @@ qtiq_vrt::create_socket( const char *p_vrt_ip, uint32_t vrt_port, uint32_t dest_
 }
 
 void
-qtiq_vrt::receive_data_packet( int16_t *p_stream1 )
+qtiq_vrt::receive_data_packet( int16_t *p_stream1, int16_t *p_stream2 )
 {
     int32_t num_bytes=0;
     uint32_t buf[VITA_PKT_NUM_WORDS];
     vrt_packet_t pkt;
+    bool received_stream[2] = {false};
 
-receive_data_pkt:
-    // receive a packet
-    if( recv(d_vrt_fd, buf, VITA_PKT_NUM_WORDS*sizeof(uint32_t), 0) > 0 )
+    while( (received_stream[0] == false) ||
+           (received_stream[1] == false) )
     {
-        if( parse_vrt_packet( buf, &pkt ) == true )
+        // receive a packet
+        if( recv(d_vrt_fd, buf, VITA_PKT_NUM_WORDS*sizeof(uint32_t), 0) > 0 )
         {
-            // make sure it's a data packet with our stream ID
-            if( (pkt.header.type == vrt_pkt_type_data) &&
-                (pkt.stream_id == d_base_id) )
+            if( parse_vrt_packet( buf, &pkt ) == true )
             {
-                // assume that the stream is large enough to hold our data
-                memcpy( p_stream1,
-                        &(buf[VITA_PAYLOAD_OFFSET]),
-                        VITA_NUM_SAMPLES*sizeof(uint32_t) );                        
-            }
+                // make sure it's a data packet with our stream ID
+                if( (pkt.header.type == vrt_pkt_type_data) )
+                {
+                    // figure out which stream the data packet belongs to
+                    if( (pkt.stream_id == d_base_id) &&
+                        (received_stream[0] == false) ) 
+                    {
+                        // assume that the stream is large enough to hold our data
+                        memcpy( p_stream1,
+                                &(buf[VITA_PAYLOAD_OFFSET]),
+                                VITA_NUM_SAMPLES*sizeof(uint32_t) );
+                        received_stream[0] = true;
+                    }
+                    else if( (pkt.stream_id == (d_base_id+1)) &&
+                             (received_stream[1] == false) )
+                    {
+                        // assume that the stream is large enough to hold our data
+                        memcpy( p_stream2,
+                                &(buf[VITA_PAYLOAD_OFFSET]),
+                                VITA_NUM_SAMPLES*sizeof(uint32_t) );
+                        received_stream[1] = true;
+                    }
+                }
+                else
+                {
+                    // TODO: handle context packets and send stream notifications
+                }
+            } // parse packet success
             else
             {
-                // TODO: handle differently
-                goto receive_data_pkt;
+                throw std::runtime_error("unable to parse received VITA packet");
             }
-        }
-    }
+        } // receive success
+    } // while receiving streams
 }
 
 bool

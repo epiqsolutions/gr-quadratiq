@@ -27,9 +27,7 @@
 
 namespace gr {
   namespace quadratiq {
-      
-#define DEFAULT_BASE_ID (1935998976)
-      
+            
     qtiq_source_s::sptr
     qtiq_source_s::make(std::string ctrl_ip, uint32_t ctrl_port)
     {
@@ -43,15 +41,13 @@ namespace gr {
     qtiq_source_s_impl::qtiq_source_s_impl(std::string ctrl_ip, uint32_t ctrl_port)
       : gr::sync_block("qtiq_source_s",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, 1, sizeof(short)))
+              gr::io_signature::make(4, 4, sizeof(short)))
     {
         set_output_multiple(qtiq_vrt::VITA_NUM_SAMPLES*2);
         
         // create the VRT stream
-        //m_p_chipA = new qtiq_vrt( "192.168.5.2", 8000, 9880, DEFAULT_BASE_ID );
-        m_p_chipA = NULL;
+        m_p_chipA = new qtiq_vrt( "192.168.5.2", 8000, 9880, DEFAULT_BASE_ID );
         m_p_chipB = new qtiq_vrt( "192.168.4.6", 8000, 9879, DEFAULT_BASE_ID+2 );
-        //m_p_chipB = NULL;
     }
 
     /*
@@ -68,10 +64,15 @@ namespace gr {
         gr_vector_const_void_star &input_items,
         gr_vector_void_star &output_items)
     {
-      short *out = (short *) output_items[0];
+      short *out1 = (short *) output_items[0];
+      short *out2 = (short *) output_items[1];
+      short *out3 = (short *) output_items[2];
+      short *out4 = (short *) output_items[3];
 
       // receive a data packet
-      m_p_chipB->receive_data_packet( out );
+      m_p_chipA->receive_data_packet( out1, out2 );
+      m_p_chipB->receive_data_packet( out3, out4 );
+      
       // TODO: actually parse # samples
       noutput_items = (qtiq_vrt::VITA_NUM_SAMPLES)*2; 
       
