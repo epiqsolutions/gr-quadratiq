@@ -29,6 +29,14 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
+    <name>A1</name>
+    <type>short</type>
+  </source>
+  <source>
+    <name>A2</name>
+    <type>short</type>
+  </source>
+  <source>
     <name>B1</name>
     <type>short</type>
   </source>
