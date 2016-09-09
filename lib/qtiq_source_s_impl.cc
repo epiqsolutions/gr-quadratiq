@@ -45,6 +45,8 @@ namespace gr {
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, 1, sizeof(short)))
     {
+        set_output_multiple(qtiq_vrt::VITA_NUM_SAMPLES*2);
+        
         // create the VRT stream
         //m_p_chipA = new qtiq_vrt( "192.168.5.2", 8000, 9880, DEFAULT_BASE_ID );
         m_p_chipA = NULL;
