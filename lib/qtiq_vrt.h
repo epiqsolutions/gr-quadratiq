@@ -44,6 +44,8 @@ namespace gr {
           ~qtiq_vrt();
 
           void receive_data_packet( int16_t *p_stream1 );
+
+          static const uint32_t VITA_NUM_SAMPLES=2032;
       };
   } // namespace quadratiq
 } // namespace gr

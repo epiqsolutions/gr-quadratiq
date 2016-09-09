@@ -34,7 +34,7 @@ namespace gr
 {
 namespace quadratiq
 {
-
+    
 ///////////////////////////////////////////////////////////////////
 // VITA PACKET CONSTANTS FOR QUADRATIQ
 typedef enum
@@ -73,8 +73,6 @@ typedef enum
 // 1 for header, 1 for stream ID, 3 for timestamps, 1 for trailer=6
 #define VITA_META_NUM_WORDS (6)
 
-// we're assuming a jumbo frame and always using a fixed length
-#define VITA_NUM_SAMPLES (2032)
 #define VITA_PKT_NUM_WORDS (VITA_META_NUM_WORDS+VITA_NUM_SAMPLES)
 
 struct vrt_header_t

@@ -71,7 +71,7 @@ namespace gr {
       // receive a data packet
       m_p_chipB->receive_data_packet( out );
       // TODO: actually parse # samples
-      noutput_items = 2032; // assuming jumbo frame
+      noutput_items = (qtiq_vrt::VITA_NUM_SAMPLES)*2; 
       
       // Tell runtime system how many output items we produced.
       return noutput_items;
