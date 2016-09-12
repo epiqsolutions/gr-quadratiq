@@ -17,6 +17,17 @@ self.$(id).set_gainA2($gainA2)
 self.$(id).set_gainB1($gainB1)
 self.$(id).set_gainB2($gainB2)
   </make>
+
+<callback>set_center_freqA($freqA)</callback>
+<callback>set_center_freqB($freqB)</callback>
+<callback>set_sample_rateA($sampleRateA)</callback>
+<callback>set_sample_rateB($sampleRateB)</callback>
+<callback>set_bandwidthA($bandwidthA)</callback>
+<callback>set_bandwidthB($bandwidthB)</callback>
+<callback>set_gainA1($gainA1)</callback>
+<callback>set_gainA2($gainA2)</callback>
+<callback>set_gainB1($gainB1)</callback>
+<callback>set_gainB2($gainB2)</callback>
   
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
