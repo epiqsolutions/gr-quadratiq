@@ -5,7 +5,30 @@
   <category>[quadratiq]</category>
   <throttle>1</throttle>
   <import>import quadratiq</import>
-  <make>quadratiq.qtiq_source_s($ctrl_ip, $ctrl_port)</make>
+  <make>quadratiq.qtiq_source_s($ctrl_ip, $ctrl_port)
+self.$(id).set_center_freqA($freqA)
+self.$(id).set_center_freqB($freqB)
+self.$(id).set_sample_rateA($sampleRateA)
+self.$(id).set_sample_rateB($sampleRateB)
+self.$(id).set_bandwidthA($bandwidthA)
+self.$(id).set_bandwidthB($bandwidthB)
+self.$(id).set_gainA1($gainA1)
+self.$(id).set_gainA2($gainA2)
+self.$(id).set_gainB1($gainB1)
+self.$(id).set_gainB2($gainB2)
+  </make>
+
+<callback>set_center_freqA($freqA)</callback>
+<callback>set_center_freqB($freqB)</callback>
+<callback>set_sample_rateA($sampleRateA)</callback>
+<callback>set_sample_rateB($sampleRateB)</callback>
+<callback>set_bandwidthA($bandwidthA)</callback>
+<callback>set_bandwidthB($bandwidthB)</callback>
+<callback>set_gainA1($gainA1)</callback>
+<callback>set_gainA2($gainA2)</callback>
+<callback>set_gainB1($gainB1)</callback>
+<callback>set_gainB2($gainB2)</callback>
+  
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -22,6 +45,70 @@
     <key>ctrl_port</key>
     <type>int</type>
   </param>
+
+  <param>
+    <name>Chip A Freq (Hz)</name>
+    <key>freqA</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Chip A Sample Rate (Hz)</name>
+    <key>sampleRateA</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Chip A Bandwidth (Hz)</name>
+    <key>bandwidthA</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Gain A1</name>
+    <key>gainA1</key>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Gain A2</name>
+    <key>gainA2</key>
+    <type>int</type>
+  </param>
+
+  <param>
+    <name>Chip B Freq (Hz)</name>
+    <key>freqB</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Chip B Sample Rate (Hz)</name>
+    <key>sampleRateB</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Chip B Bandwidth (Hz)</name>
+    <key>bandwidthB</key>
+    <type>real</type>
+  </param>
+  <param>
+    <name>Gain B1</name>
+    <key>gainB1</key>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Gain B2</name>
+    <key>gainB2</key>
+    <type>int</type>
+  </param>
+
+  <!-- Check ranges of parameters -->
+  <check>($freqA &gt;= 47e6) and ($freqA &lt;= 6000e6)</check>
+  <check>($freqB &gt;= 47e6) and ($freqB &lt;= 6000e6)</check>
+  <check>($sampleRateA &gt;= 233e3) and ($sampleRateA &lt;= 6144e4)</check>
+  <check>($bandwidthA &gt;= 233e3) and ($bandwidthA &lt;= 6144e4)</check>
+  <check>($sampleRateB &gt;= 233e3) and ($sampleRateB &lt;= 6144e4)</check>
+  <check>($bandwidthB &gt;= 233e3) and ($bandwidthB &lt;= 6144e4)</check>
+  <check>($gainA1 &gt;= 0) and ($gainA1 &lt;= 76)</check>
+  <check>($gainA2 &gt;= 0) and ($gainA2 &lt;= 76)</check>
+  <check>($gainB1 &gt;= 0) and ($gainB1 &lt;= 76)</check>
+  <check>($gainB2 &gt;= 0) and ($gainB2 &lt;= 76)</check>
 
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)

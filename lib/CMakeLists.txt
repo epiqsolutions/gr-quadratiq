@@ -28,6 +28,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND quadratiq_sources
   qtiq_source_s_impl.cc
   qtiq_vrt.cc
+  srfs_interface.cc
 )
 
 set(quadratiq_sources "${quadratiq_sources}" PARENT_SCOPE)

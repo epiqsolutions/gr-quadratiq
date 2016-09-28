@@ -38,6 +38,7 @@ namespace gr {
           bool create_socket( const char *p_vrt_ip, uint32_t vrt_port, uint32_t dest_port );
           // return true if valid packet
           bool parse_vrt_packet( uint32_t *p_raw_pkt, struct vrt_packet_t *p_pkt );
+          void convert_samples( int16_t *p_raw_samples, int16_t *p_out_samples );
 
       public:
           qtiq_vrt(std::string vrt_ip, uint32_t vrt_port, uint32_t dest_port, uint32_t base_stream_id);
