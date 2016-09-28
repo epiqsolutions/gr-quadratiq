@@ -101,10 +101,10 @@ self.$(id).set_gainB2($gainB2)
   <!-- Check ranges of parameters -->
   <check>($freqA &gt;= 47e6) and ($freqA &lt;= 6000e6)</check>
   <check>($freqB &gt;= 47e6) and ($freqB &lt;= 6000e6)</check>
-  <check>($sampleRateA &gt;= 233e3) and ($sampleRateA &lt;= 50e6)</check>
-  <check>($bandwidthA &gt;= 233e3) and ($bandwidthA &lt;= 50e6)</check>
-  <check>($sampleRateB &gt;= 233e3) and ($sampleRateB &lt;= 50e6)</check>
-  <check>($bandwidthB &gt;= 233e3) and ($bandwidthB &lt;= 50e6)</check>
+  <check>($sampleRateA &gt;= 233e3) and ($sampleRateA &lt;= 6144e4)</check>
+  <check>($bandwidthA &gt;= 233e3) and ($bandwidthA &lt;= 6144e4)</check>
+  <check>($sampleRateB &gt;= 233e3) and ($sampleRateB &lt;= 6144e4)</check>
+  <check>($bandwidthB &gt;= 233e3) and ($bandwidthB &lt;= 6144e4)</check>
   <check>($gainA1 &gt;= 0) and ($gainA1 &lt;= 76)</check>
   <check>($gainA2 &gt;= 0) and ($gainA2 &lt;= 76)</check>
   <check>($gainB1 &gt;= 0) and ($gainB1 &lt;= 76)</check>

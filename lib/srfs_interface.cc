@@ -34,7 +34,7 @@ namespace srfs {
     template <class T> bool check_range( T *p_param, T min, T max, T val );
     template <class T> bool check_resolution( T *p_param, T res, T val );
 
-    const int SRFS_MSG_SIZE=1000;
+    const int SRFS_MSG_SIZE=5000;
     
     void
     update_param( srfs_param_t *p_param, const char *p_value )
@@ -358,9 +358,15 @@ namespace srfs {
     void
     srfs_cmd::receive_msg( char *response, int length )
     {
-        if( recv( d_cmd_fd, response, length, 0) < 0 )
+        int32_t recv_len=0;
+        if( (recv_len=recv( d_cmd_fd, response, length, 0)) < 0 )
         {
             throw std::runtime_error("unable to receive SRFS response");
+        }
+        else
+        {
+            // SRFS always terminates with a newline, so make sure we pull that out
+            strtok( response, "\r\n" );
         }
     }
 

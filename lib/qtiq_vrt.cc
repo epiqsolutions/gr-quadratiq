@@ -180,19 +180,13 @@ qtiq_vrt::receive_data_packet( int16_t *p_stream1, int16_t *p_stream2 )
                     if( (pkt.stream_id == d_base_id) &&
                         (received_stream[0] == false) ) 
                     {
-                        // assume that the stream is large enough to hold our data
-                        memcpy( p_stream1,
-                                &(buf[VITA_PAYLOAD_OFFSET]),
-                                VITA_NUM_SAMPLES*sizeof(uint32_t) );
+                        convert_samples( (int16_t*)(&buf[VITA_PAYLOAD_OFFSET]), p_stream1 );
                         received_stream[0] = true;
                     }
                     else if( (pkt.stream_id == (d_base_id+1)) &&
                              (received_stream[1] == false) )
                     {
-                        // assume that the stream is large enough to hold our data
-                        memcpy( p_stream2,
-                                &(buf[VITA_PAYLOAD_OFFSET]),
-                                VITA_NUM_SAMPLES*sizeof(uint32_t) );
+                        convert_samples( (int16_t*)(&buf[VITA_PAYLOAD_OFFSET]), p_stream2 );
                         received_stream[1] = true;
                     }
                 }
@@ -265,6 +259,17 @@ qtiq_vrt::parse_vrt_packet( uint32_t *p_raw_pkt, vrt_packet_t *p_pkt )
     /////////////////////////////////////
 
     return (status);
+}
+
+void
+qtiq_vrt::convert_samples( int16_t *p_raw_samples, int16_t *p_out_samples )
+{
+    uint32_t i=0;
+    for( i=0; i<VITA_NUM_SAMPLES*2; i+=2 )
+    {
+        p_out_samples[i] = ntohs( p_raw_samples[i] );
+        p_out_samples[i+1] = ntohs( p_raw_samples[i+1] );
+    }
 }
 
 }  /* namespace quadratiq */

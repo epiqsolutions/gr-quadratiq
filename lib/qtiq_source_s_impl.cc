@@ -35,11 +35,11 @@ namespace gr {
 #define FREQUENCY_RESOLUTION 1
 
 #define SAMPLE_RATE_MIN   233000
-#define SAMPLE_RATE_MAX 40000000
+#define SAMPLE_RATE_MAX 61440000
 #define SAMPLE_RATE_RESOLUTION 1
 
-#define BANDWIDTH_MIN   233000
-#define BANDWIDTH_MAX 40000000
+#define BANDWIDTH_MIN   (SAMPLE_RATE_MIN)
+#define BANDWIDTH_MAX   (SAMPLE_RATE_MAX)
 #define BANDWIDTH_RESOLUTION 1
 
 #define RX_GAIN_MIN        0
@@ -249,7 +249,7 @@ namespace gr {
         // sample rate
         m_p_ctrl->add_param( "B1:sample_rate",
                              srfs::SRFS_UINT32,
-                             (void*)(&d_sampleRateA),
+                             (void*)(&d_sampleRateB),
                              SAMPLE_RATE_MIN,
                              SAMPLE_RATE_MAX,
                              SAMPLE_RATE_RESOLUTION,
@@ -272,24 +272,6 @@ namespace gr {
                              BANDWIDTH_RESOLUTION,
                              NULL );
 
-        // actual bandwidth, this parameter cannot be configured but represents
-        // the actual bandwidth setting
-        m_p_ctrl->add_param( "A1:actual_bandwidth",
-                             srfs::SRFS_UINT32_ACTUAL,
-                             (void*)(&d_actualBandwidthA),
-                             0,
-                             0,
-                             0,
-                             NULL );
-        // actual bandwidth, this parameter cannot be configured but represents
-        // the actual bandwidth setting
-        m_p_ctrl->add_param( "B1:actual_bandwidth",
-                             srfs::SRFS_UINT32_ACTUAL,
-                             (void*)(&d_actualBandwidthB),
-                             0,
-                             0,
-                             0,
-                             NULL );
         // rx gain
         m_p_ctrl->add_param( "A1:rx_gain",
                              srfs::SRFS_UINT8,
